@@ -4,8 +4,8 @@ import * as middy from 'middy'
 //import * as uuid from 'uuid'
 import { cors } from 'middy/middlewares'
 import { CreateTodoRequest } from '../../requests/CreateTodoRequest'
-import { createTodo } from '../../helpers/todosAcess'
-import { buildTodo } from '../../helpers/todos'
+import { createTodo } from '../../helpers/dataLayer/todosAcess'
+import { buildTodo } from '../../helpers/businessLogic/todos'
 //import { getUserId } from '../utils';
 //import { createTodo } from '../../businessLogic/todos'
 
@@ -15,15 +15,27 @@ export const handler = middy(
     // TODO: Implement creating a new TODO item
 
     const todo = buildTodo(newTodo, event);
+    
+    if(newTodo.name == null || newTodo.name == ""){
+      const error = "Failed to created todo. the field name is empty"
 
-    const todoCreated = await createTodo(todo);
+      return {
+        statusCode: 401,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({"error": error})
+      }
+    }else{
+      const todoCreated = await createTodo(todo);
 
-    return {
-      statusCode: 201,
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({"item": todoCreated})
+      return {
+        statusCode: 201,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({"item": todoCreated})
+      }
     }
   }
 )

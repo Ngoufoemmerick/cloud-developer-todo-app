@@ -4,7 +4,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
 //import * as AWS from 'aws-sdk'
-import { getAllTodoByUserId } from '../../helpers/todosAcess'
+import { getAllTodoByUserId } from '../../helpers/dataLayer/todosAcess'
 //import { ConfigurationServicePlaceholders } from 'aws-sdk/lib/config_service_placeholders'
 
 //import { getTodosForUser as getTodosForUser } from '../../businessLogic/todos'
